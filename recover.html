@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club deportivo pro - Recuperar Contraseña</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Club deportivo pro</h1>
+        <p>Tu espacio para energía, salud y comunidad</p>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="login.html">Iniciar Sesión</a>
+            <a href="register.html">Registrarse</a>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+        <article class="tarjeta">
+            <h2>Recuperar Contraseña</h2>
+            <p class="subtitulo">Ingresa tu correo electrónico y te enviaremos un enlace para restaurar tu contraseña</p>
+            
+            <form class="formulario" id="recoverForm">
+                <div>
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required>
+                </div>
+
+                <button type="submit" class="btn-recuperar">Recuperar Contraseña</button>
+            </form>
+
+            <!-- Mensaje de confirmación (oculto inicialmente) -->
+            <div class="mensaje exito" id="mensajeExito">
+                ✓ Se ha enviado un enlace de recuperación a tu correo electrónico. Por favor, revisa tu bandeja de entrada.
+            </div>
+
+            <!-- Mensaje de error (oculto inicialmente) -->
+            <div class="mensaje error" id="mensajeError" style="display: none;">
+                ✗ Hubo un problema. Por favor, intenta nuevamente más tarde.
+            </div>
+            
+            <div class="links links-center" style="margin-top: 20px;">
+                <a href="login.html">← Volver a Iniciar Sesión</a>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Club deportivo pro. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Simulación de recuperación de contraseña
+        document.getElementById('recoverForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const mensajeExito = document.getElementById('mensajeExito');
+            const mensajeError = document.getElementById('mensajeError');
+            
+            // Simular envío del correo
+            console.log('Enviando enlace de recuperación a:', email);
+            
+            // Mostrar mensaje de éxito
+            mensajeExito.style.display = 'block';
+            mensajeError.style.display = 'none';
+            
+            // Deshabilitar el botón temporalmente
+            const boton = this.querySelector('button');
+            const textoOriginal = boton.textContent;
+            boton.disabled = true;
+            boton.textContent = 'Enviando...';
+            
+            // Restaurar el botón después de 3 segundos
+            setTimeout(() => {
+                boton.disabled = false;
+                boton.textContent = textoOriginal;
+            }, 3000);
+            
+            // Limpiar el formulario
+            this.reset();
+        });
+    </script>
+</body>
+</html>

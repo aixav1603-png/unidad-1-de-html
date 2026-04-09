@@ -2,164 +2,47 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Club deportivo</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(145deg, #eaf0ff 0%, #f5e9ff 100%);
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        header {
-            background-color: #5a2d82;
-            color: white;
-            padding: 18px 20px;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-            letter-spacing: 1px;
-        }
-        header p {
-            margin: 5px 0 0;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        nav {
-            margin-top: 10px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 12px;
-            font-weight: 600;
-        }
-        nav a:hover {
-            opacity: 0.85;
-            text-decoration: underline;
-        }
-        .contenedor {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 15px 80px;
-        }
-        .tarjeta {
-            width: 100%;
-            max-width: 420px;
-            background: white;
-            border-radius: 14px;
-            box-shadow: 0 10px 25px rgba(48, 21, 84, 0.18);
-            padding: 30px;
-            text-align: center;
-        }
-        .tarjeta h2 {
-            margin: 0 0 18px;
-            color: #4b0082;
-        }
-        .tarjeta p {
-            color: #666;
-            margin: 0 0 22px;
-        }
-        .formulario {
-            display: grid;
-            gap: 14px;
-            text-align: left;
-        }
-        .formulario label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #444;
-        }
-        .formulario input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        .formulario input:focus {
-            outline: none;
-            border-color: #7a45b4;
-            box-shadow: 0 0 0 3px rgba(122, 69, 180, 0.15);
-        }
-        .btn-ingresar {
-            background-color: #6f42c1;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 1rem;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 700;
-        }
-        .btn-ingresar:hover {
-            background-color: #5b37a8;
-        }
-        .links {
-            margin-top: 14px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-        }
-        .links a {
-            color: #5a2d82;
-            text-decoration: none;
-        }
-        .links a:hover {
-            text-decoration: underline;
-        }
-        footer {
-            text-align: center;
-            padding: 12px;
-            background-color: #5a2d82;
-            color: white;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club deportivo pro - Inicio</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <h1>Club deportivo pro</h1>
         <p>Tu espacio para energía, salud y comunidad</p>
         <nav>
-            <a href="#">Inicio</a>
-            <a href="#">Planes</a>
-            <a href="#">Reservas</a>
+            <a href="index.html">Inicio</a>
+            <a href="login.html">Iniciar Sesión</a>
+            <a href="register.html">Registrarse</a>
         </nav>
     </header>
 
     <main class="contenedor">
         <article class="tarjeta">
-            <h2>Iniciar sesión</h2>
-            <p>Accede con tu correo y contraseña para comenzar tu entrenamiento</p>
-            <form class="formulario">
-                <label for="email">Correo electrónico</label>
-                <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required>
+            <div class="home-content">
+                <h2>Bienvenido</h2>
+                <p>
+                    Accede al sistema de gestión de usuarios del <strong>Club deportivo pro</strong>. 
+                    Aquí puedes iniciar sesión, crear una nueva cuenta o recuperar tu contraseña.
+                </p>
+                
+                <div class="botones-inicio">
+                    <a href="login.html">🔑 Iniciar Sesión</a>
+                    <a href="register.html">📝 Crear Cuenta</a>
+                    <a href="recover.html">🔓 Recuperar Contraseña</a>
+                </div>
 
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" placeholder="********" required>
-
-                <button type="submit" class="btn-ingresar">Ingresar</button>
-            </form>
-            <div class="links">
-                <a href="#">¿Olvidaste tu contraseña?</a>
-                <a href="#">Registrarse</a>
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                    <p style="font-size: 0.9rem; color: #999;">
+                        ¿Necesitas ayuda? Contacta con nuestro equipo de soporte.
+                    </p>
+                </div>
             </div>
         </article>
     </main>
 
     <footer>
-        <p>&copy; 2026 Club deportivo</p>
+        <p>&copy; 2026 Club deportivo pro. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>

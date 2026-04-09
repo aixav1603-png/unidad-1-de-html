@@ -27,6 +27,15 @@ header {
     padding: 18px 20px;
     text-align: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.brand-logo {
+    width: min(260px, 100%);
+    height: auto;
+    margin-bottom: 12px;
 }
 
 header h1 {

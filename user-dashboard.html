@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportClub - Dashboard Usuario</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="user-profile">
+    <header>
+        <img src="logo.svg" alt="SportClub" class="brand-logo">
+        <h1>SportClub</h1>
+        <p>Tu mejor versión comienza hoy</p>
+        <nav class="dashboard-nav">
+            <a href="#inicio">Inicio</a>
+            <a href="#reservas">Reservas</a>
+            <a href="#perfil">Perfil</a>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+        <article class="tarjeta dashboard dashboard-shell">
+            <div class="dashboard-topline" id="inicio">
+                <h2>Bienvenido a SportClub</h2>
+                <div class="dashboard-actions">
+                    <button class="btn-perfil">Editar Perfil</button>
+                    <button class="btn-perfil btn-secundario">Cerrar Sesion</button>
+                </div>
+            </div>
+
+            <div class="dashboard-layout-user">
+                <section class="dashboard-card panel-profile" id="perfil">
+                    <h3>Mi Perfil</h3>
+                    <div class="avatar-circle">JP</div>
+                    <p><strong>Nombre:</strong> Juan Perez</p>
+                    <p><strong>Correo:</strong> juan@example.com</p>
+                    <h4>Objetivos Personales</h4>
+                    <ul>
+                        <li>Mejorar resistencia</li>
+                        <li>Aumentar fuerza</li>
+                        <li>Asistir 4 veces por semana</li>
+                    </ul>
+                </section>
+
+                <section class="dashboard-card panel-progress">
+                    <h3>Progreso</h3>
+                    <div class="progress-ring">
+                        <div class="ring-center">72%</div>
+                    </div>
+                    <ul class="list-compact">
+                        <li>Cardio completado: 4/5</li>
+                        <li>Fuerza completada: 3/4</li>
+                        <li>Meta semanal: En progreso</li>
+                    </ul>
+                </section>
+
+                <section class="dashboard-card panel-classes">
+                    <h3>Clases Disponibles</h3>
+                    <div class="reserve-list">
+                        <div><span>Spinning</span><button class="btn-secundario">Reservar</button></div>
+                        <div><span>CrossFit</span><button class="btn-secundario">Reservar</button></div>
+                        <div><span>HIIT</span><button class="btn-secundario">Reservar</button></div>
+                    </div>
+                </section>
+            </div>
+
+            <section class="dashboard-card panel-table" id="reservas">
+                <h3>Reservas y Clases de la Semana</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Clase</th>
+                            <th>Dia / Hora</th>
+                            <th>Coach</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Spinning</td>
+                            <td>Lunes / 18:00</td>
+                            <td>Coach Ana</td>
+                            <td><button class="btn-secundario">Reservar</button></td>
+                        </tr>
+                        <tr>
+                            <td>Boxeo</td>
+                            <td>Sabado / 10:00</td>
+                            <td>Coach Diego</td>
+                            <td><button class="btn-secundario">Reservar</button></td>
+                        </tr>
+                        <tr>
+                            <td>CrossFit</td>
+                            <td>Miercoles / 19:00</td>
+                            <td>Coach Maria</td>
+                            <td><button class="btn-secundario">Reservar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 SportClub. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

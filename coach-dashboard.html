@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportClub - Dashboard Coach</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="coach-profile">
+    <header>
+        <img src="logo.svg" alt="SportClub" class="brand-logo">
+        <h1>SportClub</h1>
+        <p>Tu mejor versión comienza hoy</p>
+        <nav class="dashboard-nav">
+            <a href="#inicio">Inicio</a>
+            <a href="#alumnos">Alumnos</a>
+            <a href="#clases">Clases</a>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+        <article class="tarjeta dashboard dashboard-shell">
+            <div class="dashboard-topline" id="inicio">
+                <h2>Panel de Entrenador</h2>
+                <div class="dashboard-actions">
+                    <button class="btn-perfil">Editar Perfil</button>
+                    <button class="btn-perfil btn-secundario">Cerrar Sesion</button>
+                </div>
+            </div>
+
+            <p class="dashboard-welcome">Bienvenido, Coach Marcelo. Gestiona alumnos, clases y horarios desde un solo lugar.</p>
+
+            <div class="dashboard-layout-coach">
+                <section class="dashboard-card" id="alumnos">
+                    <h3>Mis Alumnos</h3>
+                    <div class="reserve-list">
+                        <div><span>Ana Garcia</span><button class="btn-secundario">Ver Progreso</button></div>
+                        <div><span>Carlos Lopez</span><button class="btn-secundario">Ver Progreso</button></div>
+                        <div><span>Laura Diaz</span><button class="btn-secundario">Ver Progreso</button></div>
+                    </div>
+                </section>
+
+                <section class="dashboard-card panel-table" id="clases">
+                    <h3>Mi Horario</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Lunes</th>
+                                <th>Martes</th>
+                                <th>Miercoles</th>
+                                <th>Jueves</th>
+                                <th>Viernes</th>
+                                <th>Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Spinning</td>
+                                <td>18:00</td>
+                                <td>Spinning</td>
+                                <td>10:00</td>
+                                <td>Boxeo</td>
+                                <td><button class="btn-secundario">Ver detalle</button></td>
+                            </tr>
+                            <tr>
+                                <td>CrossFit</td>
+                                <td>11:00</td>
+                                <td>Funcional</td>
+                                <td>11:00</td>
+                                <td>Boxeo</td>
+                                <td><button class="btn-secundario">Ver detalle</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 SportClub. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

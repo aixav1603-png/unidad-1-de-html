@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportClub - Dashboard Administrador</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-profile">
+    <header>
+        <img src="logo.svg" alt="SportClub" class="brand-logo">
+        <h1>SportClub</h1>
+        <p>Tu mejor versión comienza hoy</p>
+        <nav class="dashboard-nav">
+            <a href="#usuarios">Usuarios</a>
+            <a href="#reportes">Reportes</a>
+            <a href="#configuracion">Configuración</a>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+        <article class="tarjeta dashboard dashboard-shell">
+            <div class="dashboard-topline" id="usuarios">
+                <h2>Panel de Administracion</h2>
+                <div class="dashboard-actions">
+                    <button class="btn-perfil">Editar Perfil</button>
+                    <button class="btn-perfil btn-secundario">Cerrar Sesion</button>
+                </div>
+            </div>
+
+            <div class="dashboard-layout-admin">
+                <section class="dashboard-card" id="configuracion">
+                    <h3>Gestion de Usuarios</h3>
+                    <div class="search-box">
+                        <input type="text" placeholder="Buscar por nombre o correo">
+                    </div>
+                    <div class="reserve-list">
+                        <div><span>Juan Perez (Usuario)</span><button class="btn-secundario">Editar</button></div>
+                        <div><span>Maria Coach (Coach)</span><button class="btn-secundario">Editar</button></div>
+                        <div><span>Admin Central (Admin)</span><button class="btn-secundario">Editar</button></div>
+                    </div>
+                </section>
+
+                <section class="dashboard-card panel-table" id="reportes">
+                    <h3>Estadisticas del Sistema</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pedro Ramos</td>
+                                <td>pedro@sportclub.com</td>
+                                <td>Usuario</td>
+                                <td><button class="btn-secundario">Editar</button></td>
+                            </tr>
+                            <tr>
+                                <td>Elena Diaz</td>
+                                <td>elena@sportclub.com</td>
+                                <td>Coach</td>
+                                <td><button class="btn-secundario">Editar</button></td>
+                            </tr>
+                            <tr>
+                                <td>Admin One</td>
+                                <td>admin@sportclub.com</td>
+                                <td>Admin</td>
+                                <td><button class="btn-secundario">Editar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="dashboard-card" id="panel">
+                    <h3>Reportes Generales</h3>
+                    <div class="report-list">
+                        <button class="btn-secundario">Informe Mensual</button>
+                        <button class="btn-secundario">Descargar Abril</button>
+                        <button class="btn-secundario">Configurar Alertas</button>
+                    </div>
+                    <div class="stats-grid admin-stats">
+                        <div class="stat-card">
+                            <h4>Usuarios Activos</h4>
+                            <p>128</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Clases del Dia</h4>
+                            <p>9</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 SportClub. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

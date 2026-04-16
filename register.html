@@ -10,7 +10,7 @@
     <header>
         <img src="logo.svg" alt="SportClub" class="brand-logo">
         <h1>SportClub</h1>
-        <p>Tu espacio para energía, salud y comunidad</p>
+        <p>Tu mejor versión comienza hoy</p>
         <nav>
             <a href="index.html">Inicio</a>
             <a href="login.html">Iniciar Sesión</a>
@@ -27,6 +27,10 @@
                 <!-- Campos obligatorios -->
                 <fieldset>
                     <legend style="text-align: left; font-weight: 700; color: #4b0082; margin-bottom: 10px;">Información obligatoria</legend>
+                    <div>
+                        <label for="nombre">Nombre completo *</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre y apellido" required>
+                    </div>
                     
                     <div>
                         <label for="email">Correo electrónico *</label>
@@ -48,11 +52,6 @@
                 <fieldset>
                     <legend style="text-align: left; font-weight: 700; color: #4b0082; margin-bottom: 10px;">Información adicional (opcional)</legend>
                     
-                    <div>
-                        <label for="nombre">Nombre completo</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre">
-                    </div>
-
                     <div>
                         <label for="edad">Edad</label>
                         <input type="number" id="edad" name="edad" placeholder="Ej: 25" min="13" max="120">

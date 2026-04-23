@@ -36,6 +36,7 @@
 
                 <button type="submit" class="btn-ingresar">Iniciar sesión</button>
             </form>
+            <div class="mensaje" id="loginMessage"></div>
             
             <div class="demo-section">
                 <p class="subtitulo">Prueba los dashboards de demostración sin necesidad de registro.</p>
@@ -57,13 +58,6 @@
         <p>&copy; 2026 SportClub. Todos los derechos reservados.</p>
     </footer>
 
-    <script>
-        // Simulación de login
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('¡Bienvenido! Has iniciado sesión correctamente.');
-            this.reset();
-        });
-    </script>
+    <script src="auth.js"></script>
 </body>
 </html>

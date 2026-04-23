@@ -24,7 +24,7 @@
                 <h2>Bienvenido a SportClub</h2>
                 <div class="dashboard-actions">
                     <button class="btn-perfil">Editar Perfil</button>
-                    <button class="btn-perfil btn-secundario">Cerrar Sesion</button>
+                    <button class="btn-perfil btn-secundario" id="logoutButton">Cerrar Sesion</button>
                 </div>
             </div>
 
@@ -32,8 +32,8 @@
                 <section class="dashboard-card panel-profile" id="perfil">
                     <h3>Mi Perfil</h3>
                     <div class="avatar-circle">JP</div>
-                    <p><strong>Nombre:</strong> Juan Perez</p>
-                    <p><strong>Correo:</strong> juan@example.com</p>
+                    <p><strong>Nombre:</strong> <span data-user-name>Usuario</span></p>
+                    <p><strong>Correo:</strong> <span data-user-email>correo@sportclub.cl</span></p>
                     <h4>Objetivos Personales</h4>
                     <ul>
                         <li>Mejorar resistencia</li>
@@ -103,5 +103,6 @@
     <footer>
         <p>&copy; 2026 SportClub. Todos los derechos reservados.</p>
     </footer>
+    <script src="auth.js"></script>
 </body>
 </html>

@@ -24,11 +24,11 @@
                 <h2>Panel de Entrenador</h2>
                 <div class="dashboard-actions">
                     <button class="btn-perfil">Editar Perfil</button>
-                    <button class="btn-perfil btn-secundario">Cerrar Sesion</button>
+                    <button class="btn-perfil btn-secundario" id="logoutButton">Cerrar Sesion</button>
                 </div>
             </div>
 
-            <p class="dashboard-welcome">Bienvenido, Coach Marcelo. Gestiona alumnos, clases y horarios desde un solo lugar.</p>
+            <p class="dashboard-welcome">Bienvenido, <strong data-user-name>Coach</strong>. Gestiona alumnos, clases y horarios desde un solo lugar.</p>
 
             <div class="dashboard-layout-coach">
                 <section class="dashboard-card" id="alumnos">
@@ -80,5 +80,6 @@
     <footer>
         <p>&copy; 2026 SportClub. Todos los derechos reservados.</p>
     </footer>
+    <script src="auth.js"></script>
 </body>
 </html>

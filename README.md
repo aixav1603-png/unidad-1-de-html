@@ -293,4 +293,3 @@ proyecto/
 © 2026 Club Deportivo Pro. Todos los derechos reservados.
 
 Proyecto educativo desarrollado como parte del plan de estudios.
-html, etc

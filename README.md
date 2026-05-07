@@ -97,10 +97,15 @@ Permite a usuarios recuperar acceso a su cuenta.
 ```
 unidad-1-de-html/
 ├── index.html              # Página de inicio
-├── login.html              # Página de login
-├── register.html           # Página de registro
-├── recover.html            # Página de recuperación de contraseña
+├── login.html              # Página de login (consume API con fetch)
+├── register.html           # Registro vía POST /api/auth/register
+├── recover.html            # Recuperación (simulación en cliente)
+├── auth.js                 # Sesión, JWT en localStorage, llamadas fetch
 ├── styles.css              # Estilos CSS compartidos
+├── backend/                # API Node.js + Express + Sequelize (SQLite por defecto)
+│   ├── .env.example
+│   ├── package.json
+│   └── src/...
 ├── README.md               # Este archivo
 └── .git/                   # Control de versiones Git
 ```
@@ -135,10 +140,11 @@ unidad-1-de-html/
 ✅ Paleta de colores uniforme (púrpura, gradiente azul)
 
 ### JavaScript
-✅ Simulación de login con validación
-✅ Validación de contraseñas coincidentes en registro
-✅ Simulación de recuperación de contraseña con mensaje de éxito
-✅ Experiencia interactiva sin recargar la página
+✅ Login real con `fetch()` contra `POST /api/auth/login` (JWT + usuario en `localStorage`)
+✅ Registro con `fetch()` contra `POST /api/auth/register` (campos opcionales en `metadata`)
+✅ Dashboards validan sesión con `GET /api/auth/me` (Bearer token)
+✅ Validación de contraseñas coincidentes en registro y mensajes de error del servidor
+✅ Simulación de recuperación de contraseña con mensaje de éxito (sin backend)
 
 ### Funcionalidad
 ✅ Navegación intuitiva entre páginas
@@ -173,26 +179,35 @@ unidad-1-de-html/
 
 ## 🚀 Cómo Usar
 
-1. **Abrir la aplicación**: 
-   - Abre `index.html` en tu navegador preferido
-   
-2. **Navegar el sistema**:
-   - Desde la página de inicio, accede a cualquiera de las tres secciones
-   
-3. **Crear una cuenta**:
-   - Haz clic en "Crear Cuenta"
-   - Completa los campos obligatorios (correo y contraseña)
-   - Opcionalmente, agrega información adicional
-   - Haz clic en "Registrarse"
-   
-4. **Iniciar sesión**:
-   - Ingresa tu correo y contraseña
-   - Haz clic en "Iniciar sesión"
-   
-5. **Recuperar contraseña**:
-   - Si olvidas tu contraseña, haz clic en "¿Olvidaste tu contraseña?"
-   - Ingresa tu correo electrónico
-   - Recibirás un mensaje confirmando el envío
+### 1. Levantar el backend (obligatorio para login y registro)
+
+Desde la carpeta `backend`:
+
+```bash
+cp .env.example .env    # En Windows: copia manual .env.example → .env
+npm install
+npm run dev
+```
+
+Por defecto la API escucha en `http://localhost:3000`. La primera ejecución crea SQLite y usuarios semilla (por ejemplo `user1@demo.cl` / `12345678`). Detalle en `backend/README.md`.
+
+### 2. Abrir el frontend
+
+Abre los HTML desde un servidor estático local (por ejemplo **Live Server** en VS Code) para evitar problemas de CORS con `file://`. La URL base de la API se puede cambiar antes de cargar `auth.js`:
+
+```html
+<script>window.__API_BASE__ = "http://localhost:3000";</script>
+<script src="auth.js"></script>
+```
+
+Si omites el script anterior, `auth.js` usa `http://localhost:3000`.
+
+### 3. Flujo en la aplicación
+
+1. **Registro**: completa el formulario (contraseña mínimo **8 caracteres**, igual que valida el servidor). Tras un registro exitoso se redirige al login.
+2. **Login**: correo y contraseña; se guardan `token` y datos de usuario en `localStorage` y se redirige al dashboard según el rol.
+3. **Dashboards**: comprueban el token con `GET /api/auth/me`. Si el token expiró o la API no responde, la sesión se cierra y vuelves al login.
+4. **Recuperar contraseña**: sigue siendo una simulación en el navegador (sin endpoint en esta API).
 
 ---
 
@@ -212,11 +227,11 @@ El proyecto está optimizado para todos los dispositivos:
 
 ## 🔒 Notas de Seguridad
 
-⚠️ **Este es un proyecto educativo con simulaciones**
-- Los formularios no se conectan a un servidor real
-- Las contraseñas se validan solo en el cliente (no recomendado en producción)
-- La recuperación de contraseña es una simulación
-- En producción, se requiere un backend seguro
+⚠️ **Proyecto educativo**
+- Login y registro sí pasan por un backend real (Express + JWT + contraseñas hasheadas en base de datos).
+- Los tokens JWT se guardan en `localStorage` solo para aprendizaje; en producción suele evaluarse `httpOnly` cookies u otros mecanismos.
+- No subas `.env` ni archivos `.sqlite` al repositorio (ya están ignorados en `backend/.gitignore`).
+- La recuperación de contraseña del frontend sigue siendo una simulación sin correo real.
 
 ---
 
@@ -266,14 +281,10 @@ proyecto/
 
 ### Próximas mejoras sugeridas
 
-- [ ] Agregar animaciones CSS más complejas
-- [ ] Implementar validación más robusta con regex
-- [ ] Agregar modal de confirmación
-- [ ] Integración con backend (Node.js, Django, etc.)
-- [ ] Base de datos para almacenar usuarios
-- [ ] Sistema de autenticación real (JWT, cookies)
-- [ ] Página de dashboard para usuarios autenticados
-- [ ] Recuperación de contraseña real con email
+- [ ] Recuperación de contraseña real (correo + tokens de un solo uso)
+- [ ] Refresh tokens y expiración más cómoda para el usuario
+- [ ] Middleware de roles en rutas administrativas del backend
+- [ ] Tests automatizados (API y/o frontend)
 
 ---
 

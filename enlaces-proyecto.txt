@@ -1,0 +1,31 @@
+================================================================================
+  Club Deportivo SportClub – Enlaces del proyecto (Git + GitHub)
+  Generado: 2026-05-06
+================================================================================
+
+REPOSITORIO (código en GitHub)
+  https://github.com/aixav1603-png/unidad-1-de-html
+
+RAMA DE TRABAJO ACTUAL (feature/login_register_api)
+  https://github.com/aixav1603-png/unidad-1-de-html/tree/feature/login_register_api
+
+CREAR O ABRIR PULL REQUEST (compare con main)
+  https://github.com/aixav1603-png/unidad-1-de-html/compare/main...feature/login_register_api
+
+--------------------------------------------------------------------------------
+  NOTA SOBRE LA “PÁGINA” DEL SITIO
+--------------------------------------------------------------------------------
+  Este proyecto es un sitio estático (HTML/CSS/JS) + API en carpeta backend.
+
+  • Vista previa en GitHub (archivos, sin ejecutar la API):
+    Abre el repositorio y navega a index.html, login.html, etc.
+
+  • Para usar login/registro con fetch: levanta la API (carpeta backend,
+    "npm run dev") y abre el frontend con un servidor local, por ejemplo
+    Live Server en VS Code (no uses solo file:// si hay problemas de CORS).
+
+  • Si en el futuro activas GitHub Pages en el repo, la URL suele ser del tipo:
+    https://aixav1603-png.github.io/unidad-1-de-html/
+    (solo funciona cuando está habilitado en Ajustes → Pages del repositorio.)
+
+================================================================================

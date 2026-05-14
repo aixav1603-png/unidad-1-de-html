@@ -45,9 +45,22 @@ async function updateUser(id, payload) {
   return userRepository.updateById(id, payload);
 }
 
+async function deleteUser(id) {
+  const user = await userRepository.findById(id, { paranoid: false });
+  if (!user) {
+    const error = new Error('Usuario no encontrado.');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  await userRepository.deleteById(id);
+  return user;
+}
+
 module.exports = {
   listUsers,
   getUserById,
   createUser,
-  updateUser
+  updateUser,
+  deleteUser
 };

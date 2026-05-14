@@ -23,7 +23,7 @@
             <div class="dashboard-topline" id="inicio">
                 <h2>Bienvenido a SportClub</h2>
                 <div class="dashboard-actions">
-                    <button class="btn-perfil">Editar Perfil</button>
+                    <button class="btn-perfil" id="editProfileButton">Editar Perfil</button>
                     <button class="btn-perfil btn-secundario" id="logoutButton">Cerrar Sesion</button>
                 </div>
             </div>
@@ -35,11 +35,62 @@
                     <p><strong>Nombre:</strong> <span data-user-name>Usuario</span></p>
                     <p><strong>Correo:</strong> <span data-user-email>correo@sportclub.cl</span></p>
                     <h4>Objetivos Personales</h4>
-                    <ul>
-                        <li>Mejorar resistencia</li>
-                        <li>Aumentar fuerza</li>
-                        <li>Asistir 4 veces por semana</li>
+                    <ul class="perfil-info">
+                        <li data-user-goal>No hay objetivos registrados todavía.</li>
                     </ul>
+                </section>
+
+                <section class="dashboard-card panel-form" id="profileEditPanel" style="display:none;">
+                    <h3>Editar mi perfil</h3>
+                    <form id="profileEditForm" class="formulario">
+                        <div>
+                            <label for="profileFullName">Nombre completo</label>
+                            <input type="text" id="profileFullName" name="profileFullName" placeholder="Tu nombre completo">
+                        </div>
+                        <div>
+                            <label for="profileEmail">Correo electrónico</label>
+                            <input type="email" id="profileEmail" name="profileEmail" placeholder="correo@ejemplo.com">
+                        </div>
+                        <div>
+                            <label for="profilePassword">Nueva contraseña</label>
+                            <input type="password" id="profilePassword" name="profilePassword" placeholder="Dejar vacío para no cambiar">
+                        </div>
+                        <div>
+                            <label for="profileConfirmPassword">Confirmar contraseña</label>
+                            <input type="password" id="profileConfirmPassword" name="profileConfirmPassword" placeholder="Confirma la contraseña nueva">
+                        </div>
+                        <div>
+                            <label for="profileAge">Edad</label>
+                            <input type="number" id="profileAge" name="profileAge" placeholder="Ej: 25" min="13" max="120">
+                        </div>
+                        <div>
+                            <label for="profileSports">¿Practicas deporte?</label>
+                            <select id="profileSports" name="profileSports">
+                                <option value="">Seleccionar...</option>
+                                <option value="si">Sí</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="profileSportType">Tipo de deporte</label>
+                            <input type="text" id="profileSportType" name="profileSportType" placeholder="Ej: fútbol, natación">
+                        </div>
+                        <div>
+                            <label for="profileGoal">Objetivo personal</label>
+                            <textarea id="profileGoal" name="profileGoal" placeholder="¿Qué quieres lograr?"></textarea>
+                        </div>
+                        <div>
+                            <label for="profileLevel">Nivel de experiencia</label>
+                            <select id="profileLevel" name="profileLevel">
+                                <option value="">Seleccionar...</option>
+                                <option value="principiante">Principiante</option>
+                                <option value="intermedio">Intermedio</option>
+                                <option value="avanzado">Avanzado</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-ingresar">Guardar cambios</button>
+                    </form>
+                    <div class="mensaje" id="profileEditMessage"></div>
                 </section>
 
                 <section class="dashboard-card panel-progress">

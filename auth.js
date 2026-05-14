@@ -15,6 +15,8 @@ var roleRoutes = {
   admin: "admin-dashboard.html"
 };
 
+var adminUsersCache = [];
+
 function normalizeEmail(email) {
   return String(email || "")
     .trim()
@@ -209,6 +211,422 @@ function buildRegisterMetadata(fields) {
   return meta;
 }
 
+function getAuthHeaders(includeJson) {
+  var headers = {};
+  var token = getToken();
+  if (token) {
+    headers.Authorization = 'Bearer ' + token;
+  }
+  if (includeJson !== false) {
+    headers['Content-Type'] = 'application/json';
+  }
+  return headers;
+}
+
+function fetchApi(path, options) {
+  return fetch(API_BASE_URL + path, options).then(parseJsonResponse);
+}
+
+function extractPayloadFromProfileForm() {
+  var profilePassword = document.getElementById('profilePassword').value;
+  var confirmPassword = document.getElementById('profileConfirmPassword').value;
+
+  if (profilePassword && profilePassword !== confirmPassword) {
+    return { error: 'Las contraseñas no coinciden.' };
+  }
+
+  var payload = {
+    full_name: document.getElementById('profileFullName').value.trim(),
+    email: normalizeEmail(document.getElementById('profileEmail').value),
+    metadata: buildRegisterMetadata({
+      edad: document.getElementById('profileAge').value,
+      deportista: document.getElementById('profileSports').value,
+      tipoDeporte: document.getElementById('profileSportType').value,
+      objetivo: document.getElementById('profileGoal').value,
+      nivel: document.getElementById('profileLevel').value
+    })
+  };
+
+  if (profilePassword) {
+    if (profilePassword.length < 8) {
+      return { error: 'La contraseña debe tener al menos 8 caracteres.' };
+    }
+    payload.password = profilePassword;
+  }
+
+  return { data: payload };
+}
+
+function fillProfileEditForm(user) {
+  var profileMeta = user.metadata || {};
+  var profileData = profileMeta.profile || {};
+
+  document.getElementById('profileFullName').value = user.full_name || '';
+  document.getElementById('profileEmail').value = user.email || '';
+  document.getElementById('profilePassword').value = '';
+  document.getElementById('profileConfirmPassword').value = '';
+  document.getElementById('profileAge').value = profileData.age || '';
+  document.getElementById('profileSports').value = profileData.practices_sport || '';
+  document.getElementById('profileSportType').value = profileData.sport_type || '';
+  document.getElementById('profileGoal').value = profileData.goal || '';
+  document.getElementById('profileLevel').value = profileData.level || '';
+}
+
+function toggleProfileEditor(show) {
+  var panel = document.getElementById('profileEditPanel');
+  if (!panel) {
+    return;
+  }
+  panel.style.display = show ? '' : 'none';
+}
+
+function updateProfileHeader(user) {
+  if (!user) return;
+  var goalItem = document.querySelector('[data-user-goal]');
+  if (goalItem) {
+    var profileData = (user.metadata && user.metadata.profile) || {};
+    goalItem.textContent = profileData.goal || 'No hay objetivos registrados todavía.';
+  }
+}
+
+function showProfileMessage(message, type) {
+  showMessage(document.getElementById('profileEditMessage'), message, type);
+}
+
+function setupProfileEditor(user) {
+  var editButton = document.getElementById('editProfileButton');
+  var profileForm = document.getElementById('profileEditForm');
+  if (!editButton || !profileForm || !user) {
+    return;
+  }
+
+  fillProfileEditForm(user);
+  editButton.addEventListener('click', function () {
+    var panel = document.getElementById('profileEditPanel');
+    if (!panel) return;
+    panel.style.display = panel.style.display === 'none' ? '' : 'none';
+  });
+
+  profileForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    var payloadResult = extractPayloadFromProfileForm();
+    if (payloadResult.error) {
+      showProfileMessage(payloadResult.error, 'error');
+      return;
+    }
+
+    var payload = payloadResult.data;
+    if (!payload.full_name) {
+      showProfileMessage('El nombre completo es obligatorio.', 'error');
+      return;
+    }
+    if (!payload.email) {
+      showProfileMessage('El correo es obligatorio.', 'error');
+      return;
+    }
+
+    var token = getToken();
+    var messageBox = document.getElementById('profileEditMessage');
+    var submitButton = profileForm.querySelector('[type="submit"]');
+    if (submitButton) {
+      submitButton.disabled = true;
+    }
+    showProfileMessage('Guardando cambios...', 'info');
+
+    fetchApi('/api/users/' + getStoredUser().id, {
+      method: 'PUT',
+      headers: getAuthHeaders(true),
+      body: JSON.stringify(payload)
+    })
+      .then(function (body) {
+        if (!body.ok || !body.data) {
+          throw new Error(body.message || flattenApiErrors(body.errors) || 'No fue posible actualizar el perfil.');
+        }
+
+        saveSession(getToken(), body.data);
+        bindDashboardUI(getStoredUser());
+        updateProfileHeader(body.data);
+        fillProfileEditForm(body.data);
+        showProfileMessage('Perfil actualizado correctamente.', 'exito');
+      })
+      .catch(function (error) {
+        showProfileMessage(error.message || 'Error en la actualización del perfil.', 'error');
+      })
+      .finally(function () {
+        if (submitButton) {
+          submitButton.disabled = false;
+        }
+      });
+  });
+}
+
+function buildUserMetadata(fields) {
+  return buildRegisterMetadata(fields);
+}
+
+function renderAdminUsers(users) {
+  adminUsersCache = Array.isArray(users) ? users : [];
+  var cardsContainer = document.getElementById('adminUserCards');
+  var tableBody = document.getElementById('adminUserTableBody');
+
+  if (cardsContainer) {
+    cardsContainer.innerHTML = '';
+    if (adminUsersCache.length === 0) {
+      cardsContainer.innerHTML = '<div><span>No hay usuarios registrados.</span></div>';
+    }
+
+    adminUsersCache.forEach(function (user) {
+      var userRow = document.createElement('div');
+      userRow.innerHTML = '<span>' + user.full_name + ' (' + user.role + ')</span>' +
+        '<div>' +
+        '<button class="btn-secundario admin-edit" data-user-id="' + user.id + '">Editar</button>' +
+        '<button class="btn-secundario admin-delete" data-user-id="' + user.id + '">Eliminar</button>' +
+        '</div>';
+      cardsContainer.appendChild(userRow);
+    });
+  }
+
+  if (tableBody) {
+    tableBody.innerHTML = '';
+    adminUsersCache.forEach(function (user) {
+      var row = document.createElement('tr');
+      row.innerHTML =
+        '<td>' + user.full_name + '</td>' +
+        '<td>' + user.email + '</td>' +
+        '<td>' + user.role + '</td>' +
+        '<td>' +
+        '<button class="btn-secundario admin-edit" data-user-id="' + user.id + '">Editar</button> ' +
+        '<button class="btn-secundario admin-delete" data-user-id="' + user.id + '">Eliminar</button>' +
+        '</td>';
+      tableBody.appendChild(row);
+    });
+  }
+}
+
+function filterAdminUsers(query) {
+  query = String(query || '').trim().toLowerCase();
+  if (!query) {
+    renderAdminUsers(adminUsersCache);
+    return;
+  }
+
+  var filtered = adminUsersCache.filter(function (user) {
+    return (
+      String(user.full_name || '').toLowerCase().includes(query) ||
+      String(user.email || '').toLowerCase().includes(query) ||
+      String(user.role || '').toLowerCase().includes(query)
+    );
+  });
+
+  renderAdminUsers(filtered);
+}
+
+function fillAdminUserForm(user) {
+  document.getElementById('adminUserId').value = user ? user.id : '';
+  document.getElementById('adminFullName').value = user ? user.full_name : '';
+  document.getElementById('adminEmail').value = user ? user.email : '';
+  document.getElementById('adminPassword').value = '';
+  document.getElementById('adminConfirmPassword').value = '';
+  document.getElementById('adminRole').value = user ? user.role : 'user';
+
+  var profileData = (user && user.metadata && user.metadata.profile) || {};
+  document.getElementById('adminAge').value = profileData.age || '';
+  document.getElementById('adminSports').value = profileData.practices_sport || '';
+  document.getElementById('adminSportType').value = profileData.sport_type || '';
+  document.getElementById('adminGoal').value = profileData.goal || '';
+  document.getElementById('adminLevel').value = profileData.level || '';
+
+  var title = user ? 'Editar usuario' : 'Crear usuario';
+  document.getElementById('adminFormTitle').textContent = title;
+  document.getElementById('adminFormMessage').textContent = '';
+}
+
+function openAdminEditor(user) {
+  var panel = document.getElementById('adminEditorPanel');
+  if (!panel) return;
+  fillAdminUserForm(user || null);
+  panel.style.display = '';
+  panel.scrollIntoView({ behavior: 'smooth' });
+}
+
+function closeAdminEditor() {
+  var panel = document.getElementById('adminEditorPanel');
+  if (!panel) return;
+  panel.style.display = 'none';
+}
+
+function extractAdminFormPayload() {
+  var id = document.getElementById('adminUserId').value;
+  var nombre = document.getElementById('adminFullName').value.trim();
+  var email = normalizeEmail(document.getElementById('adminEmail').value);
+  var password = document.getElementById('adminPassword').value;
+  var confirmPassword = document.getElementById('adminConfirmPassword').value;
+  var role = document.getElementById('adminRole').value;
+
+  if (!nombre) {
+    return { error: 'El nombre completo es obligatorio.' };
+  }
+  if (!email) {
+    return { error: 'El correo es obligatorio.' };
+  }
+
+  if (password && password !== confirmPassword) {
+    return { error: 'Las contraseñas no coinciden.' };
+  }
+  if (password && password.length < 8) {
+    return { error: 'La contraseña debe tener al menos 8 caracteres.' };
+  }
+
+  var payload = {
+    full_name: nombre,
+    email: email,
+    role: role,
+    metadata: buildRegisterMetadata({
+      edad: document.getElementById('adminAge').value,
+      deportista: document.getElementById('adminSports').value,
+      tipoDeporte: document.getElementById('adminSportType').value,
+      objetivo: document.getElementById('adminGoal').value,
+      nivel: document.getElementById('adminLevel').value
+    })
+  };
+
+  if (password) {
+    payload.password = password;
+  }
+
+  return { data: payload, id: id };
+}
+
+function showAdminMessage(message, type) {
+  showMessage(document.getElementById('adminFormMessage'), message, type);
+}
+
+function refreshAdminUsers() {
+  var tableBody = document.getElementById('adminUserTableBody');
+  var cardsContainer = document.getElementById('adminUserCards');
+  if (!tableBody && !cardsContainer) {
+    return;
+  }
+
+  fetchApi('/api/users', { headers: getAuthHeaders(false) })
+    .then(function (body) {
+      if (!body.ok || !body.data) {
+        throw new Error(body.message || 'No se pudo obtener el listado de usuarios.');
+      }
+      renderAdminUsers(body.data);
+    })
+    .catch(function (error) {
+      var messageBox = document.getElementById('adminMessage');
+      showMessage(messageBox, error.message || 'Error al cargar usuarios.', 'error');
+    });
+}
+
+function setupAdminDashboard() {
+  var searchInput = document.getElementById('adminSearchInput');
+  var createButton = document.getElementById('createUserButton');
+  var adminForm = document.getElementById('adminUserForm');
+  var cancelButton = document.getElementById('adminCancelButton');
+  var cardsContainer = document.getElementById('adminUserCards');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      filterAdminUsers(this.value);
+    });
+  }
+
+  if (createButton) {
+    createButton.addEventListener('click', function () {
+      openAdminEditor(null);
+    });
+  }
+
+  if (adminForm) {
+    adminForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var payloadResult = extractAdminFormPayload();
+      if (payloadResult.error) {
+        showAdminMessage(payloadResult.error, 'error');
+        return;
+      }
+
+      var id = payloadResult.id;
+      var method = id ? 'PUT' : 'POST';
+      var path = '/api/users' + (id ? '/' + id : '');
+      var targetMessage = document.getElementById('adminFormMessage');
+      var submitButton = adminForm.querySelector('[type="submit"]');
+      if (submitButton) {
+        submitButton.disabled = true;
+      }
+      showMessage(targetMessage, id ? 'Actualizando usuario...' : 'Creando usuario...', 'info');
+
+      fetchApi(path, {
+        method: method,
+        headers: getAuthHeaders(true),
+        body: JSON.stringify(payloadResult.data)
+      })
+        .then(function (body) {
+          if (!body.ok) {
+            throw new Error(body.message || flattenApiErrors(body.errors) || 'No se pudo guardar el usuario.');
+          }
+          showMessage(targetMessage, body.message, 'exito');
+          closeAdminEditor();
+          refreshAdminUsers();
+        })
+        .catch(function (error) {
+          showMessage(targetMessage, error.message || 'Error al guardar el usuario.', 'error');
+        })
+        .finally(function () {
+          if (submitButton) {
+            submitButton.disabled = false;
+          }
+        });
+    });
+  }
+
+  if (cancelButton) {
+    cancelButton.addEventListener('click', function () {
+      closeAdminEditor();
+    });
+  }
+
+  if (cardsContainer) {
+    cardsContainer.addEventListener('click', function (event) {
+      var button = event.target.closest('button');
+      if (!button) return;
+      var id = button.dataset.userId;
+      if (!id) return;
+      var user = adminUsersCache.find(function (item) {
+        return String(item.id) === String(id);
+      });
+      if (button.classList.contains('admin-edit')) {
+        openAdminEditor(user);
+        return;
+      }
+      if (button.classList.contains('admin-delete')) {
+        if (!window.confirm('¿Eliminar este usuario? Esta acción no se puede deshacer.')) {
+          return;
+        }
+        fetchApi('/api/users/' + id, {
+          method: 'DELETE',
+          headers: getAuthHeaders(false)
+        })
+          .then(function (body) {
+            if (!body.ok) {
+              throw new Error(body.message || 'No se pudo eliminar el usuario.');
+            }
+            refreshAdminUsers();
+          })
+          .catch(function (error) {
+            showMessage(document.getElementById('adminMessage'), error.message || 'Error al eliminar usuario.', 'error');
+          });
+      }
+    });
+  }
+
+  refreshAdminUsers();
+}
+
 function setupRegisterPage() {
   var form = document.getElementById("registerForm");
   if (!form) {
@@ -356,6 +774,11 @@ function setupDashboardPage() {
       }
       saveSession(token, body.data);
       bindDashboardUI(getStoredUser());
+      updateProfileHeader(body.data);
+      setupProfileEditor(body.data);
+      if (expectedRole === 'admin') {
+        setupAdminDashboard();
+      }
     })
     .catch(function () {
       clearSession();

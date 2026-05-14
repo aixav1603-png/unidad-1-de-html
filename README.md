@@ -238,6 +238,21 @@ El proyecto está optimizado para todos los dispositivos:
 ## 🧠 Uso de Inteligencia Artificial
 
 Este proyecto fue desarrollado incorporando responsablemente:
+
+---
+
+## 📦 Entrega y evidencia
+
+- Rama de entrega: `main-entrega-sportclub`
+- Backend actualizado con roles `user`, `coach`, `admin` y CRUD de usuarios para administradores.
+- Frontend mejorado con:
+  - Iniciar sesión y redirección según rol.
+  - Registro de nuevos usuarios con metadatos deportivos.
+  - Dashboard de usuario con edición de perfil.
+  - Dashboard de administrador con búsqueda, listado, creación, edición y eliminación de usuarios.
+- El backend se verificó ejecutando `node src/server.js` y la API respondió correctamente en `http://localhost:3000`.
+
+Para ver la evidencia de funcionalidades y puntos de prueba, revisa el archivo `EVIDENCIA.md`.
 - Generación de ideas de diseño
 - Sugerencias de estructura HTML
 - Optimizaciones de estilos CSS
@@ -258,26 +273,40 @@ Manteniendo siempre una revisión crítica del código generado y asegurando que
 
 ## 👨‍💻 Instrucciones para Desarrollador
 
-### Estructura de carpetas recomendada (futura expansión)
+### Estructura actual del repositorio
 
 ```
-proyecto/
+unidad-1-de-html/
+├── admin-dashboard.html
+├── coach-dashboard.html
 ├── index.html
-├── pages/
-│   ├── login.html
-│   ├── register.html
-│   └── recover.html
-├── css/
-│   ├── styles.css
-│   ├── responsive.css    # Futura adición
-│   └── components.css    # Futura adición
-├── js/
-│   └── main.js          # Futura adición para scripts
-├── assets/
-│   ├── images/          # Logos, iconos
-│   └── fonts/           # Fuentes personalizadas
-└── README.md
+├── login.html
+├── register.html
+├── recover.html
+├── user-dashboard.html
+├── auth.js
+├── styles.css
+├── README.md
+└── backend/
 ```
+
+### Páginas disponibles
+- `index.html` — página principal del sistema
+- `login.html` — iniciar sesión
+- `register.html` — registro de nuevo usuario
+- `recover.html` — recuperación de contraseña simulada
+- `user-dashboard.html` — dashboard para usuarios
+- `coach-dashboard.html` — dashboard para coaches
+- `admin-dashboard.html` — dashboard para administradores
+
+> Si subes el proyecto a GitHub y activas GitHub Pages, la URL base será `https://<usuario>.github.io/<repositorio>/` y las páginas estarán disponibles como:
+> - `https://<usuario>.github.io/<repositorio>/index.html`
+> - `https://<usuario>.github.io/<repositorio>/login.html`
+> - `https://<usuario>.github.io/<repositorio>/register.html`
+> - `https://<usuario>.github.io/<repositorio>/recover.html`
+> - `https://<usuario>.github.io/<repositorio>/user-dashboard.html`
+> - `https://<usuario>.github.io/<repositorio>/coach-dashboard.html`
+> - `https://<usuario>.github.io/<repositorio>/admin-dashboard.html`
 
 ### Próximas mejoras sugeridas
 

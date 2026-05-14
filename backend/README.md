@@ -218,6 +218,40 @@ Body:
 }
 ```
 
+## Endpoints de administración
+
+### Listar usuarios
+```http
+GET /api/users
+```
+- Requiere token de administrador.
+
+### Obtener usuario
+```http
+GET /api/users/:id
+```
+- Requiere token de administrador o del propio usuario.
+
+### Crear usuario
+```http
+POST /api/users
+```
+- Requiere token de administrador.
+- Permite crear usuarios con rol `user`, `coach` o `admin`.
+
+### Actualizar usuario
+```http
+PUT /api/users/:id
+```
+- Requiere token de administrador o del propio usuario.
+- Los usuarios normales no pueden cambiar su propio rol.
+
+### Eliminar usuario
+```http
+DELETE /api/users/:id
+```
+- Requiere token de administrador.
+
 ### Protegido con Bearer Token
 
 #### Ver mi perfil

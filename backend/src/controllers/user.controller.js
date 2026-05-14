@@ -38,6 +38,13 @@ async function create(req, res, next) {
 
 async function update(req, res, next) {
   try {
+    if (req.user.role !== 'admin' && req.body.role && req.body.role !== req.user.role) {
+      return res.status(403).json({
+        ok: false,
+        message: 'No autorizado para cambiar el rol del usuario.'
+      });
+    }
+
     const { isValid, errors, data } = validateUserPayload(req.body, { partial: true });
     if (!isValid) {
       return res.status(400).json({ ok: false, message: 'Payload inválido.', errors });
@@ -50,9 +57,19 @@ async function update(req, res, next) {
   }
 }
 
+async function remove(req, res, next) {
+  try {
+    await userService.deleteUser(req.params.id);
+    return success(res, 'Usuario eliminado correctamente.', null);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getAll,
   getById,
   create,
-  update
+  update,
+  remove
 };

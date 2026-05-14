@@ -12,10 +12,18 @@ async function updateById(id, payload) {
   return User.findByPk(id);
 }
 
+async function deleteById(id) {
+  const user = await User.findByPk(id);
+  if (!user) return null;
+  await user.destroy();
+  return user;
+}
+
 module.exports = {
   findAll,
   findById,
   findByEmail,
   create,
-  updateById
+  updateById,
+  deleteById
 };
